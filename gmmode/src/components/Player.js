@@ -18,65 +18,88 @@ const Player = ({ player }) => {
   };
 
   const handleSave = () => {
-    editPlayer(player.id, editedPlayer);
+    // Create a copy for validation
+    const validatedPlayer = { ...editedPlayer };
+    
+    // Validate the required fields
+    if (!validatedPlayer.firstName || !validatedPlayer.lastName) {
+      alert('Please enter both first and last name');
+      return;
+    }
+    
+    // Handle number validation (1-99)
+    if (!validatedPlayer.number) {
+      validatedPlayer.number = '1';
+    } else {
+      const numValue = parseInt(validatedPlayer.number);
+      if (isNaN(numValue) || numValue < 1) {
+        validatedPlayer.number = '1';
+      } else if (numValue > 99) {
+        validatedPlayer.number = '99';
+      } else {
+        validatedPlayer.number = numValue.toString();
+      }
+    }
+    
+    // Handle position default
+    if (!validatedPlayer.position) {
+      validatedPlayer.position = 'C';
+    }
+    
+    // Handle overall validation (50-99)
+    if (!validatedPlayer.overall) {
+      validatedPlayer.overall = '75';
+    } else {
+      const numValue = parseInt(validatedPlayer.overall);
+      if (isNaN(numValue) || numValue < 50) {
+        validatedPlayer.overall = '50';
+      } else if (numValue > 99) {
+        validatedPlayer.overall = '99';
+      } else {
+        validatedPlayer.overall = numValue.toString();
+      }
+    }
+    
+    // Handle contract term (1-8 years)
+    if (!validatedPlayer.contractTerm) {
+      validatedPlayer.contractTerm = '1';
+    } else {
+      const numValue = parseInt(validatedPlayer.contractTerm);
+      if (isNaN(numValue) || numValue < 1) {
+        validatedPlayer.contractTerm = '1';
+      } else if (numValue > 8) {
+        validatedPlayer.contractTerm = '8';
+      } else {
+        validatedPlayer.contractTerm = numValue.toString();
+      }
+    }
+    
+    // Handle salary validation (0.825M - 15.00M)
+    if (!validatedPlayer.salary) {
+      validatedPlayer.salary = '0.825';
+    } else {
+      const numericValue = validatedPlayer.salary.replace(/[^0-9.]/g, '');
+      const floatValue = parseFloat(numericValue);
+      
+      if (isNaN(floatValue) || floatValue < 0.825) {
+        validatedPlayer.salary = '0.825';
+      } else if (floatValue > 15) {
+        validatedPlayer.salary = '15.00';
+      } else {
+        validatedPlayer.salary = floatValue.toFixed(3);
+      }
+    }
+    
+    // Save the validated player
+    editPlayer(player.id, validatedPlayer);
     setIsEditing(false);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let processedValue = value;
-    
-    // Handle special formatting for salary
-    if (name === 'salary') {
-      // Remove any non-numeric characters except the decimal point
-      const numericValue = value.replace(/[^0-9.]/g, '');
-      const floatValue = parseFloat(numericValue);
-      
-      // Validate the range (0.825M to 15.00M)
-      if (!isNaN(floatValue)) {
-        if (floatValue < 0.825) {
-          processedValue = '0.825';
-        } else if (floatValue > 15) {
-          processedValue = '15.00';
-        } else {
-          processedValue = floatValue.toFixed(3);
-        }
-      } else {
-        processedValue = '0.825';
-      }
-    }
-    
-    // Process overall rating (50-99)
-    if (name === 'overall') {
-      const numValue = parseInt(value);
-      if (isNaN(numValue)) {
-        processedValue = '50';
-      } else if (numValue < 50) {
-        processedValue = '50';
-      } else if (numValue > 99) {
-        processedValue = '99';
-      } else {
-        processedValue = numValue.toString();
-      }
-    }
-    
-    // Process jersey number (1-99)
-    if (name === 'number') {
-      const numValue = parseInt(value);
-      if (isNaN(numValue)) {
-        processedValue = '1';
-      } else if (numValue < 1) {
-        processedValue = '1';
-      } else if (numValue > 99) {
-        processedValue = '99';
-      } else {
-        processedValue = numValue.toString();
-      }
-    }
-
     setEditedPlayer({
       ...editedPlayer,
-      [name]: processedValue
+      [name]: value
     });
   };
 
@@ -96,6 +119,7 @@ const Player = ({ player }) => {
                 value={editedPlayer.firstName}
                 onChange={handleChange}
                 className="edit-input"
+                required
               />
             </div>
             <div className="edit-group">
@@ -106,6 +130,7 @@ const Player = ({ player }) => {
                 value={editedPlayer.lastName}
                 onChange={handleChange}
                 className="edit-input"
+                required
               />
             </div>
           </div>
@@ -121,6 +146,7 @@ const Player = ({ player }) => {
                 value={editedPlayer.number}
                 onChange={handleChange}
                 className="edit-input small"
+                placeholder="1-99"
               />
             </div>
             <div className="edit-group">
@@ -149,6 +175,7 @@ const Player = ({ player }) => {
                 value={editedPlayer.overall}
                 onChange={handleChange}
                 className="edit-input small"
+                placeholder="50-99"
               />
             </div>
           </div>
@@ -164,6 +191,7 @@ const Player = ({ player }) => {
                 value={editedPlayer.contractTerm}
                 onChange={handleChange}
                 className="edit-input small"
+                placeholder="1-8"
               />
             </div>
             <div className="edit-group">
@@ -174,6 +202,7 @@ const Player = ({ player }) => {
                 value={editedPlayer.salary}
                 onChange={handleChange}
                 className="edit-input"
+                placeholder="0.825-15.00"
               />
             </div>
           </div>

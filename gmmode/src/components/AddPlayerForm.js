@@ -8,81 +8,98 @@ const AddPlayerForm = ({ onClose }) => {
   const [player, setPlayer] = useState({
     firstName: '',
     lastName: '',
-    number: '1',
-    position: 'C',
-    overall: '75',
-    contractTerm: '1',
-    salary: '0.825',
+    number: '',
+    position: '',
+    overall: '',
+    contractTerm: '',
+    salary: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let processedValue = value;
-    
-    // Handle special formatting for salary
-    if (name === 'salary') {
-      // Remove any non-numeric characters except the decimal point
-      const numericValue = value.replace(/[^0-9.]/g, '');
-      const floatValue = parseFloat(numericValue);
-      
-      // Validate the range (0.825M to 15.00M)
-      if (!isNaN(floatValue)) {
-        if (floatValue < 0.825) {
-          processedValue = '0.825';
-        } else if (floatValue > 15) {
-          processedValue = '15.00';
-        } else {
-          processedValue = floatValue.toFixed(3);
-        }
-      } else {
-        processedValue = '0.825';
-      }
-    }
-    
-    // Process overall rating (50-99)
-    if (name === 'overall') {
-      const numValue = parseInt(value);
-      if (isNaN(numValue)) {
-        processedValue = '50';
-      } else if (numValue < 50) {
-        processedValue = '50';
-      } else if (numValue > 99) {
-        processedValue = '99';
-      } else {
-        processedValue = numValue.toString();
-      }
-    }
-    
-    // Process jersey number (1-99)
-    if (name === 'number') {
-      const numValue = parseInt(value);
-      if (isNaN(numValue)) {
-        processedValue = '1';
-      } else if (numValue < 1) {
-        processedValue = '1';
-      } else if (numValue > 99) {
-        processedValue = '99';
-      } else {
-        processedValue = numValue.toString();
-      }
-    }
-
     setPlayer({
       ...player,
-      [name]: processedValue
+      [name]: value
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validate form
-    if (!player.firstName || !player.lastName) {
+    // Create a copy for validation
+    const validatedPlayer = { ...player };
+    
+    // Validate form fields and set defaults if empty
+    if (!validatedPlayer.firstName || !validatedPlayer.lastName) {
       alert('Please enter both first and last name');
       return;
     }
     
-    addPlayer(player);
+    // Handle number validation (1-99)
+    if (!validatedPlayer.number) {
+      validatedPlayer.number = '1';
+    } else {
+      const numValue = parseInt(validatedPlayer.number);
+      if (isNaN(numValue) || numValue < 1) {
+        validatedPlayer.number = '1';
+      } else if (numValue > 99) {
+        validatedPlayer.number = '99';
+      } else {
+        validatedPlayer.number = numValue.toString();
+      }
+    }
+    
+    // Handle position default
+    if (!validatedPlayer.position) {
+      validatedPlayer.position = 'C';
+    }
+    
+    // Handle overall validation (50-99)
+    if (!validatedPlayer.overall) {
+      validatedPlayer.overall = '75';
+    } else {
+      const numValue = parseInt(validatedPlayer.overall);
+      if (isNaN(numValue) || numValue < 50) {
+        validatedPlayer.overall = '50';
+      } else if (numValue > 99) {
+        validatedPlayer.overall = '99';
+      } else {
+        validatedPlayer.overall = numValue.toString();
+      }
+    }
+    
+    // Handle contract term (1-8 years)
+    if (!validatedPlayer.contractTerm) {
+      validatedPlayer.contractTerm = '1';
+    } else {
+      const numValue = parseInt(validatedPlayer.contractTerm);
+      if (isNaN(numValue) || numValue < 1) {
+        validatedPlayer.contractTerm = '1';
+      } else if (numValue > 8) {
+        validatedPlayer.contractTerm = '8';
+      } else {
+        validatedPlayer.contractTerm = numValue.toString();
+      }
+    }
+    
+    // Handle salary validation (0.825M - 15.00M)
+    if (!validatedPlayer.salary) {
+      validatedPlayer.salary = '0.825';
+    } else {
+      const numericValue = validatedPlayer.salary.replace(/[^0-9.]/g, '');
+      const floatValue = parseFloat(numericValue);
+      
+      if (isNaN(floatValue) || floatValue < 0.825) {
+        validatedPlayer.salary = '0.825';
+      } else if (floatValue > 15) {
+        validatedPlayer.salary = '15.00';
+      } else {
+        validatedPlayer.salary = floatValue.toFixed(3);
+      }
+    }
+    
+    // Add the validated player
+    addPlayer(validatedPlayer);
     onClose();
   };
 
@@ -125,7 +142,7 @@ const AddPlayerForm = ({ onClose }) => {
           
           <div className="form-row">
             <div className="form-group small">
-              <label htmlFor="number">Number (1-99)</label>
+              <label htmlFor="number">Number</label>
               <input
                 type="number"
                 id="number"
@@ -147,6 +164,7 @@ const AddPlayerForm = ({ onClose }) => {
                 onChange={handleChange}
                 className="form-input"
               >
+                <option value="" disabled>Select position</option>
                 <option value="C">Center (C)</option>
                 <option value="LW">Left Wing (LW)</option>
                 <option value="RW">Right Wing (RW)</option>
@@ -157,7 +175,7 @@ const AddPlayerForm = ({ onClose }) => {
             </div>
             
             <div className="form-group small">
-              <label htmlFor="overall">Overall (50-99)</label>
+              <label htmlFor="overall">Overall</label>
               <input
                 type="number"
                 id="overall"
@@ -173,7 +191,7 @@ const AddPlayerForm = ({ onClose }) => {
           
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="contractTerm">Contract Term (Years)</label>
+              <label htmlFor="contractTerm">Contract Term</label>
               <input
                 type="number"
                 id="contractTerm"
@@ -187,7 +205,7 @@ const AddPlayerForm = ({ onClose }) => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="salary">Salary ($M)</label>
+              <label htmlFor="salary">Salary </label>
               <input
                 type="text"
                 id="salary"
