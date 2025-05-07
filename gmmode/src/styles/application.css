@@ -1,0 +1,738 @@
+/* Main Styles for NHL 25 GM Mode */
+
+/* Base Styles & Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f7fa;
+  }
+  
+  button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+  
+  /* Layout */
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .content-container {
+    flex: 1;
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  /* Header Styles */
+  .header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-icon {
+    font-size: 24px;
+    margin-right: 10px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .header-nav {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+  }
+  
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-icon {
+    margin-right: 8px;
+  }
+  
+  /* Roster Page Styles */
+  .roster-page {
+    width: 100%;
+  }
+  
+  .player-list-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+  }
+  
+  .player-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .player-list-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2a5298;
+  }
+  
+  .btn-add-player {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-add-player:hover {
+    background-color: #218838;
+  }
+  
+  .btn-add-player svg {
+    margin-right: 8px;
+  }
+  
+  /* Filter Bar */
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+  }
+  
+  .search-box {
+    flex: 1;
+    position: relative;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px 10px 10px 35px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .filter-controls {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .filter-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .filter-icon {
+    margin-right: 8px;
+    color: #6c757d;
+  }
+  
+  .filter-select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 16px;
+    min-width: 150px;
+  }
+  
+  /* Player List Styles */
+  .player-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 15px;
+  }
+  
+  .player-item {
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .player-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .player-info {
+    flex: 1;
+  }
+  
+  .player-main-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .player-number {
+    font-weight: 600;
+    font-size: 18px;
+    margin-right: 10px;
+    color: #555;
+  }
+  
+  .player-name {
+    font-size: 18px;
+    margin: 0;
+    color: #2a5298;
+  }
+  
+  .status-indicator {
+    margin-left: auto;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  
+  .status-indicator.nhl {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .status-indicator.ahl {
+    background-color: #fd7e14;
+    color: white;
+  }
+  
+  .status-indicator.none {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .player-details {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .player-detail {
+    font-size: 14px;
+  }
+  
+  .detail-label {
+    color: #6c757d;
+    margin-right: 5px;
+  }
+  
+  .detail-value {
+    font-weight: 500;
+  }
+  
+  .player-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn-edit, .btn-delete {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-edit {
+    background-color: #f8f9fa;
+    color: #2a5298;
+  }
+  
+  .btn-edit:hover {
+    background-color: #e2e6ea;
+  }
+  
+  .btn-delete {
+    background-color: #f8f9fa;
+    color: #dc3545;
+  }
+  
+  .btn-delete:hover {
+    background-color: #e2e6ea;
+  }
+  
+  .no-players {
+    grid-column: 1 / -1;
+    padding: 30px;
+    text-align: center;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px dashed #ddd;
+  }
+  
+  /* Player Editing Styles */
+  .player-item.editing {
+    padding: 0;
+  }
+  
+  .player-edit-form {
+    width: 100%;
+    padding: 15px;
+  }
+  
+  .edit-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .edit-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-group.small {
+    flex: 0.5;
+  }
+  
+  .edit-group label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+  
+  .edit-input {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .edit-input.small {
+    width: 70px;
+  }
+  
+  .edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .btn-save {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  
+  .btn-save svg {
+    margin-right: 5px;
+  }
+  
+  .btn-cancel {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  
+  .btn-cancel svg {
+    margin-right: 5px;
+  }
+  
+  /* Add Player Modal Styles */
+  .add-player-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    max-width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .modal-header h2 {
+    font-size: 20px;
+    color: #2a5298;
+  }
+  
+  .close-btn {
+    background: none;
+    color: #6c757d;
+    font-size: 20px;
+    transition: color 0.2s;
+  }
+  
+  .close-btn:hover {
+    color: #dc3545;
+  }
+  
+  .add-player-form {
+    padding: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group.small {
+    width: 100px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .form-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  
+  .btn-add svg {
+    margin-right: 8px;
+  }
+  
+  /* Lineup Page Styles */
+  .lineup-page {
+    width: 100%;
+  }
+  
+  .lineups-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  @media (max-width: 1200px) {
+    .lineups-container {
+      flex-direction: column;
+    }
+  }
+  
+  .lineup-column {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .team-lineup {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .team-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .team-icon {
+    margin-right: 10px;
+    color: #2a5298;
+  }
+  
+  .team-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2a5298;
+  }
+  
+  .lineup-section {
+    margin-bottom: 30px;
+  }
+  
+  .section-title {
+    font-size: 18px;
+    color: #6c757d;
+    margin-bottom: 15px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+  
+  .lines-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .line {
+    display: flex;
+    align-items: center;
+  }
+  
+  .line-label {
+    width: 70px;
+    font-weight: 500;
+    color: #6c757d;
+  }
+  
+  .line-players {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+  }
+  
+  .line-players.defense {
+    justify-content: space-around;
+  }
+  
+  .line-players.goalies {
+    justify-content: space-around;
+  }
+  
+  .goalie-position {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 45%;
+  }
+  
+  .position-label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+  
+  .lineup-player, .empty-position {
+    background-color: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    height: 60px;
+  }
+  
+  .empty-position {
+    justify-content: center;
+    color: #6c757d;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .empty-position:hover {
+    background-color: #e9ecef;
+  }
+  
+  .add-icon {
+    margin-right: 5px;
+  }
+  
+  .lineup-player .player-info {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+  
+  .lineup-player .player-number {
+    font-size: 14px;
+    margin-right: 8px;
+    color: #6c757d;
+  }
+  
+  .player-name-container {
+    min-width: 0;
+  }
+  
+  .lineup-player .player-name {
+    font-size: 16px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .lineup-player .player-details {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    color: #6c757d;
+  }
+  
+  .lineup-player .player-overall {
+    font-weight: 500;
+  }
+  
+  .lineup-player .player-position {
+    color: #2a5298;
+  }
+  
+  .remove-player {
+    background: none;
+    color: #dc3545;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  
+  .remove-player:hover {
+    opacity: 1;
+  }
+  
+  /* Player Selector Modal */
+  .player-selector-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .player-selector-list {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .selectable-player {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .selectable-player:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .selectable-player .player-number {
+    width: 40px;
+    font-weight: 500;
+  }
+  
+  .selectable-player .player-name {
+    flex: 1;
+  }
+  
+  .selectable-player .player-overall {
+    margin-left: 15px;
+    font-weight: 600;
+    color: #2a5298;
+  }
+  
+  /* Utility Classes */
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-2 {
+    margin-top: 10px;
+  }
+  
+  .mb-2 {
+    margin-bottom: 10px;
+  }
