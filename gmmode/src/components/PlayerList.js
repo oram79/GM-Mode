@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import Player from './Player';
 import AddPlayerForm from './AddPlayerForm';
 import { PlayerContext } from '../context/PlayerContext';
@@ -11,6 +11,7 @@ const PlayerList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [positionFilter, setPositionFilter] = useState('All');
   const [lineupFilter, setLineupFilter] = useState('All');
+  const [sortOption, setSortOption] = useState('overall-desc'); // Default sort by overall highest to lowest
 
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
@@ -34,9 +35,28 @@ const PlayerList = () => {
     return nameMatches && positionMatches && lineupMatches;
   });
 
+  // Sort players based on current sort option
   const sortedPlayers = [...filteredPlayers].sort((a, b) => {
-    // Sort by overall rating (highest first)
-    return parseInt(b.overall) - parseInt(a.overall);
+    switch (sortOption) {
+      case 'overall-desc':
+        return parseInt(b.overall) - parseInt(a.overall);
+      case 'overall-asc':
+        return parseInt(a.overall) - parseInt(b.overall);
+      case 'name-asc':
+        return `${a.lastName}${a.firstName}`.localeCompare(`${b.lastName}${b.firstName}`);
+      case 'name-desc':
+        return `${b.lastName}${b.firstName}`.localeCompare(`${a.lastName}${a.firstName}`);
+      case 'number-asc':
+        return parseInt(a.number) - parseInt(b.number);
+      case 'number-desc':
+        return parseInt(b.number) - parseInt(a.number);
+      case 'salary-desc':
+        return parseFloat(b.salary) - parseFloat(a.salary);
+      case 'salary-asc':
+        return parseFloat(a.salary) - parseFloat(b.salary);
+      default:
+        return parseInt(b.overall) - parseInt(a.overall);
+    }
   });
 
   return (
@@ -88,6 +108,24 @@ const PlayerList = () => {
               <option value="NHL">NHL Lineup</option>
               <option value="AHL">AHL Lineup</option>
               <option value="None">Not Assigned</option>
+            </select>
+          </div>
+          
+          <div className="filter-group">
+            <FontAwesomeIcon icon={faSort} className="filter-icon" />
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="filter-select"
+            >
+              <option value="overall-desc">Overall (Highest to Lowest)</option>
+              <option value="overall-asc">Overall (Lowest to Highest)</option>
+              <option value="name-asc">Name (A to Z)</option>
+              <option value="name-desc">Name (Z to A)</option>
+              <option value="number-asc">Number (Lowest to Highest)</option>
+              <option value="number-desc">Number (Highest to Lowest)</option>
+              <option value="salary-desc">Salary (Highest to Lowest)</option>
+              <option value="salary-asc">Salary (Lowest to Highest)</option>
             </select>
           </div>
         </div>

@@ -1409,3 +1409,39 @@ input, select, button {
     border: 1px solid #ddd;
   }
 }
+
+/* These are additional styles you can add to your application.css file */
+
+/* Make sure filter groups are sized appropriately for the added sorting dropdown */
+.filter-group {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+/* Add hover effect for sort icon */
+.filter-icon.sort-icon {
+  color: var(--primary);
+}
+
+/* Responsive adjustment for the filter bar */
+@media (max-width: 1100px) {
+  .filter-controls {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .filter-group {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    padding: 12px 16px;
+  }
+  
+  .filter-select {
+    min-width: 120px;
+  }
+}
